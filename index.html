@@ -87,7 +87,7 @@
 
 <!--new banner-->
           <div class="my-6">
-      <img src="assets/finance-banner.webp" alt="Finance Icons Banner"
+      <img src="assets/image.png" alt="Finance Icons Banner"
            class="w-full h-auto rounded-xl shadow-sm border border-gray-200" />
     </div>
 
@@ -202,6 +202,45 @@
             <i class="fas fa-plus"></i>
         </button>
     </div>
+
+<!-- new game -->
+ <!-- 🟠 Add this inside your existing <body> where you want the game -->
+<div class="bg-white p-6 rounded-xl shadow-sm mt-10">
+  <h2 class="text-xl font-bold text-orange-600 mb-4">💡 Monthly Budget Game</h2>
+  <p class="text-gray-600 mb-2">Try to finish the month with savings! Simulated income & expenses appear randomly.</p>
+  <button onclick="startBudgetGame()" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700">
+    Start Game
+  </button>
+</div>
+
+<!-- 🟠 Place this script at the end of your existing <script> tag -->
+<script>
+  function startBudgetGame() {
+    const salary = Math.floor(Math.random() * 30000 + 20000);
+    const expenses = [
+      { name: '🏠 Rent', cost: Math.floor(Math.random() * 10000 + 5000) },
+      { name: '🍔 Groceries', cost: Math.floor(Math.random() * 3000 + 1000) },
+      { name: '🎬 Entertainment', cost: Math.floor(Math.random() * 2000 + 500) },
+      { name: '🚗 Transport', cost: Math.floor(Math.random() * 2000 + 500) }
+    ];
+
+    let message = `💰 Salary: ₹${salary}\n\n`;
+    let total = 0;
+
+    expenses.forEach(exp => {
+      message += `${exp.name}: ₹${exp.cost}\n`;
+      total += exp.cost;
+    });
+
+    const savings = salary - total;
+    message += `\n📊 Total Expenses: ₹${total}`;
+    message += `\n💡 Savings: ₹${savings}`;
+    message += savings >= 0 ? `\n\n✅ You saved money!` : `\n\n❌ You went over budget!`;
+
+    alert(message);
+  }
+</script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
