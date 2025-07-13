@@ -235,11 +235,29 @@
     const savings = salary - total;
     message += `\n📊 Total Expenses: ₹${total}`;
     message += `\n💡 Savings: ₹${savings}`;
-    message += savings >= 0 ? `\n\n✅ You saved money!` : `\n\n❌ You went over budget!`;
+
+    // 🎉 Show success/failure message with confetti or emoji
+    if (savings >= 0) {
+      message += `\n\n✅ You saved money!`;
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    } else {
+      message += `\n\n❌ You went over budget!`;
+      confetti({
+        particleCount: 80,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ['#ff0000', '#000000']
+      });
+    }
 
     alert(message);
   }
 </script>
+
 
 
     <script>
@@ -539,6 +557,9 @@
                 }
             }
         });
+        
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </body>
 </html>
