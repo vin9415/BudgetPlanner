@@ -589,35 +589,40 @@ let score = 0;
 
 function initSnake() {
   const canvas = document.getElementById("snakeCanvas");
-  const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
+
+// Set canvas to always be a square based on width
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientWidth;
+
   const grid = 20;
-    // 🔶 Touch support for mobile swipe gestures
   let touchStartX = 0, touchStartY = 0;
 
-  canvas.addEventListener("touchstart", function (e) {
-    const touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-  });
+canvas.addEventListener("touchstart", function (e) {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
 
-  canvas.addEventListener("touchmove", function (e) {
-    if (!touchStartX || !touchStartY) return;
+canvas.addEventListener("touchmove", function (e) {
+  if (!touchStartX || !touchStartY) return;
 
-    const touch = e.touches[0];
-    const diffX = touch.clientX - touchStartX;
-    const diffY = touch.clientY - touchStartY;
+  const touch = e.touches[0];
+  const diffX = touch.clientX - touchStartX;
+  const diffY = touch.clientY - touchStartY;
 
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 0 && dx !== -1) { dx = 1; dy = 0; } // swipe right
-      else if (diffX < 0 && dx !== 1) { dx = -1; dy = 0; } // swipe left
-    } else {
-      if (diffY > 0 && dy !== -1) { dx = 0; dy = 1; } // swipe down
-      else if (diffY < 0 && dy !== 1) { dx = 0; dy = -1; } // swipe up
-    }
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0 && dx !== -1) { dx = 1; dy = 0; }
+    else if (diffX < 0 && dx !== 1) { dx = -1; dy = 0; }
+  } else {
+    if (diffY > 0 && dy !== -1) { dx = 0; dy = 1; }
+    else if (diffY < 0 && dy !== 1) { dx = 0; dy = -1; }
+  }
 
-    touchStartX = 0;
-    touchStartY = 0;
-  });
+  touchStartX = 0;
+  touchStartY = 0;
+});
+
 
   score = 0;
   snake = [{ x: 5, y: 5 }];
@@ -686,7 +691,8 @@ function initSnake() {
   <div class="bg-white rounded-xl p-6 relative w-[400px] h-[450px]">
     <button onclick="closeSnakeGame()" class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl">&times;</button>
     <h3 class="text-lg font-semibold text-center mb-3 text-orange-600">🐍 Budget Snake</h3>
-    <canvas id="snakeCanvas" width="360" height="360" class="border mx-auto w-full max-w-xs aspect-square"></canvas>
+   <canvas id="snakeCanvas" class="border mx-auto w-full max-w-xs aspect-square touch-none"></canvas>
+
 
     <p id="snakeScore" class="text-center mt-2 text-sm text-gray-700">Score: 0</p>
   </div>
