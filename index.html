@@ -591,6 +591,34 @@ function initSnake() {
   const canvas = document.getElementById("snakeCanvas");
   const ctx = canvas.getContext("2d");
   const grid = 20;
+    // 🔶 Touch support for mobile swipe gestures
+  let touchStartX = 0, touchStartY = 0;
+
+  canvas.addEventListener("touchstart", function (e) {
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  });
+
+  canvas.addEventListener("touchmove", function (e) {
+    if (!touchStartX || !touchStartY) return;
+
+    const touch = e.touches[0];
+    const diffX = touch.clientX - touchStartX;
+    const diffY = touch.clientY - touchStartY;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0 && dx !== -1) { dx = 1; dy = 0; } // swipe right
+      else if (diffX < 0 && dx !== 1) { dx = -1; dy = 0; } // swipe left
+    } else {
+      if (diffY > 0 && dy !== -1) { dx = 0; dy = 1; } // swipe down
+      else if (diffY < 0 && dy !== 1) { dx = 0; dy = -1; } // swipe up
+    }
+
+    touchStartX = 0;
+    touchStartY = 0;
+  });
+
   score = 0;
   snake = [{ x: 5, y: 5 }];
   dx = 1; dy = 0;
@@ -658,7 +686,8 @@ function initSnake() {
   <div class="bg-white rounded-xl p-6 relative w-[400px] h-[450px]">
     <button onclick="closeSnakeGame()" class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl">&times;</button>
     <h3 class="text-lg font-semibold text-center mb-3 text-orange-600">🐍 Budget Snake</h3>
-    <canvas id="snakeCanvas" width="360" height="360" class="border mx-auto"></canvas>
+    <canvas id="snakeCanvas" width="360" height="360" class="border mx-auto w-full max-w-xs aspect-square"></canvas>
+
     <p id="snakeScore" class="text-center mt-2 text-sm text-gray-700">Score: 0</p>
   </div>
 </div>
